@@ -1,6 +1,6 @@
 import { View, Text ,TextInput,Image,TouchableHighlight, StyleSheet,ImageBackground, Button, TouchableOpacity,Alert} from 'react-native'
 import React, {Component}  from 'react'
-
+import axios from 'axios'
 export default class Login extends Component{
 
   constructor(){
