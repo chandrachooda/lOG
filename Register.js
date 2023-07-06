@@ -2,58 +2,40 @@ import { View, Text ,TextInput,Image,TouchableHighlight, StyleSheet,ImageBackgro
 import React, {Component,useState} from 'react'
 import Login from "./Login";
 import axios from 'axios'
-export default class Register extends Component{
+const Register = ({navigation}) => {
+
     
-  constructor() {
-    super();
-    this.state = { 
-      displayName: '',
-      email: '', 
-      password: '',
-      isLoading: false
+const [registerEmail, setRegisterEmail] = useState('');
+const [registerPassword, setRegisterPassword] = useState('');
+const [registerName, setRegisterName]= useState('')
+
+const handleRegisterEmailChange = (text) => {
+    setRegisterEmail(text);
+  };
+  
+  const handleRegisterPasswordChange = (text) => {
+    setRegisterPassword(text);
+  };
+
+  const handleRegisterNameChange = (text) => {
+    setRegisterName(text);
+  };
+
+  const handleRegister = async () => {
+    try {
+      const response = await axios.put('https://api.oopacks.com/api/test/register', {
+        email: registerEmail,
+        password: registerPassword,
+      });
+
+      console.log(response.data);
+      setRegisterEmail('');
+      setRegisterPassword('');
+    } catch (error) {
+      console.error(error);
     }
-    
-  }
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  }
-   registerUser = () => {
-    if(this.state.email ===''  && this.state.password === '') {
-      Alert.alert('Enter details to signup!')
-    } else {
-      this.setState({
-        isLoading: false,
-      })
-      
-      auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        console.log(res);
-        res.user.updateProfile({
-          displayName: this.state.displayName
-        })
-        console.log('User registered successfully!')
-        this.setState({
-          
-          displayName: '',
-          email: '', 
-          password: ''
-        })
-        this.props.navigation.navigate('Login')
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))      
-    }
-  }
-  render() {
-    if(this.state.isLoading){
-      return(
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
-        </View>
-      )
-    }
+  };
+
   return ( 
     <View style={style.container}>
         <View style={style.space}>   
