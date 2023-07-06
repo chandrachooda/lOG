@@ -1,53 +1,64 @@
 import { View, Text ,TextInput,Image,TouchableHighlight, StyleSheet,ImageBackground, Button, TouchableOpacity,Alert} from 'react-native'
 import React, {Component,useState}  from 'react'
 import axios from 'axios'
-export default class Login extends Component{
-
-  constructor(){
-    super();
-    this.state = { 
-      email: '', 
-      password: '',
-      isLoading: false
-    }
-  }
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  }
-  userLogin = () => {
-    if(this.state.email === '' && this.state.password === '') {
-      Alert.alert('Enter details to signin!')
-    } else {
-      this.setState({
-        isLoading: true,
-      })
-      
-      auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        console.log(res)
-        console.log('User logged-in successfully!')
-        this.setState({
-          isLoading: false,
-          email: '', 
-          password: ''
-        })
-        this.props.navigation.navigate('Register')
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))
-    }
-  }
-  render() {
-    if(this.state.isLoading){
-      return(
-        <View style={styles.preloader}>
-          <ActivityIndicator  size="large" color="#9E9E9E"/>
-        </View>
-      )
-    }  
+const LoginScreen = (text) => {
+    setLoginEmail(text);
+  };
   
+  const handleLoginPasswordChange = (text) => {
+    setLoginPassword(text);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('https://api.oopacks.com/api/test/login', {
+        email: loginEmail,
+        password: loginPassword,
+      });
+  
+      console.log(response.data);
+
+      setLoginEmail('');
+      setLoginPassword('');
+    } catch (error) {
+      
+      console.error(error);
+    }
+  };
+
+const Login = ({navigation}) => {
+    const [loginEmail, setLoginEmail] = useState('');
+const [loginPassword, setLoginPassword] = useState('');
+
+
+
+
+const handleLoginEmailChange = (text) => {
+    setLoginEmail(text);
+  };
+  
+  const handleLoginPasswordChange = (text) => {
+    setLoginPassword(text);
+  };
+
+
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('https://api.oopacks.com/api/test/login', {
+        email: loginEmail,
+        password: loginPassword,
+      });
+  
+      console.log(response.data);
+
+      setLoginEmail('');
+      setLoginPassword('');
+    } catch (error) {
+      
+      console.error(error);
+    }
+  };
   return (
 
 
