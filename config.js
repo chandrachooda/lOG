@@ -1,5 +1,1 @@
-const instance = axios.create({
-    baseURL: '',
-    timeout: 1000,
-    headers: {'X-Custom-Header': 'foobar'}
-  });
+export const BASE_URL = 'https://api.oopacks.com/api/test/';
